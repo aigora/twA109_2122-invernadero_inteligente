@@ -20,7 +20,7 @@ int main(void) {
 	printf("\n 6) Humedad manual");
 	printf("\n 7) Temperatura manual");
 	
-	opcion = menu_ppal();
+        opcion = menu_ppal();
   
   printf("\nIntroduce los valores umbrales de los sensores\n");
 	printf("Humedad ");
@@ -29,8 +29,6 @@ int main(void) {
 	scanf_s("%d", &umbralhumedad);
 	printf("\n Temparatura ");
 	scanf_s("%d", &umbraltemp);
-
-	opcion = menu_ppal();
 	switch (opcion)
 	{
 	case 1:
