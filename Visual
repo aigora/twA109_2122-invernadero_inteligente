@@ -52,8 +52,8 @@ int main(void) {
 
 	case 4:
 		printf("\n Sensor luz: %d",sensorluz);
-		printf("\n Sensor humedad %d", sensorhumedad);
-		printf("\n Sensor temperatura %d", sensortemp);
+		printf("\n Sensor humedad: %d", sensorhumedad);
+		printf("\n Sensor temperatura: %d", sensortemp);
 		break;
 
 	case 5:
