@@ -1,0 +1,90 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define ON 1
+#define OFF 0
+
+int menu_ppal(void);
+
+int main(void) {
+	int sensorluz=0, umbraluz=0, luces;
+	int sensorhumedad=0, umbralhumedad=0, bomba;
+	int sensortemp=0, umbraltemp=0, ventilador;
+	int opcion=0;
+  
+	printf("Selecciona la opcion deseada:");
+	printf("\n 1) Luz");
+	printf("\n 2) Humedad");
+	printf("\n 3) Temperatura");
+	printf("\n 4) Datos sensores");
+	printf("\n 5) Luz manual");
+	printf("\n 6) Humedad manual");
+	printf("\n 7) Temperatura manual");
+	
+	opcion = menu_ppal();
+  
+  printf("\nIntroduce los valores umbrales de los sensores\n");
+	printf("Humedad ");
+	scanf_s("%d", &umbraluz);
+	printf("\nLuz ");
+	scanf_s("%d", &umbralhumedad);
+	printf("\n Temparatura ");
+	scanf_s("%d", &umbraltemp);
+
+	opcion = menu_ppal();
+	switch (opcion)
+	{
+	case 1:
+		if (sensorluz <= umbraluz)
+			luces = ON;
+		else
+			luces = OFF;
+		break;
+	case 2:
+		if (sensorhumedad <= umbralhumedad)
+			bomba = ON;
+		else
+			bomba = OFF;
+		break;
+	case 3:
+		if (sensortemp <= umbraltemp)
+			ventilador = ON;
+		else
+			ventilador = OFF;
+		break;
+
+	case 4:
+		printf("\n Sensor luz: %d",sensorluz);
+		printf("\n Sensor humedad %d", sensorhumedad);
+		printf("\n Sensor temperatura %d", sensortemp);
+		break;
+
+	case 5:
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d",&luces);
+
+	case 6:
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d", &bomba);
+		break;
+
+	case 7:
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d", &ventilador);
+		break;
+	}
+}
+
+
+int menu_ppal(void)
+{
+	int i, opcion=0;
+	do
+	{
+	scanf_s("%d", &opcion);
+	if (opcion < 1 || opcion > 7)
+		printf("ERROR\n Introduzca otra opcion");
+	else
+		printf("Ha seleccionado la opcion %d",opcion);
+	} while (opcion < 1||opcion > 7);
+	return opcion; 
+}
