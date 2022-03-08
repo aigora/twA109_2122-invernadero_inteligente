@@ -75,7 +75,7 @@ int main(void) {
 
 int menu_ppal(void)
 {
-	int i, opcion=0;
+	int opcion=0;
 	do
 	{
 	scanf_s("%d", &opcion);
