@@ -59,6 +59,7 @@ int main(void) {
 	case 5:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d",&luces);
+		break;
 
 	case 6:
 		printf("Encender = 1/Apagar = 0");
