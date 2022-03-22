@@ -6,7 +6,7 @@
 int menu_ppal(void);
 
 int main(void) {
-	int sensorluz=0, umbraluz=0, luces
+	int sensorluz=0, umbraluz=0, luces;
 	int sensorhumedad=0, umbralhumedad=0, bomba;
 	int sensortemp=0, umbraltemp=0, ventilador;
 	int opcion=0;
