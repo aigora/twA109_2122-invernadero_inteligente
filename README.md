@@ -5,7 +5,7 @@ verdes, además de cultivos de interés comercial.
 
 ## Integrantes del equipo
 
-Patricio Juan Peñalver Carvajal
+Patricio Juan Peñalver Carvajal @patriciopenalver
 
 Luis Vicente Gordón
 
