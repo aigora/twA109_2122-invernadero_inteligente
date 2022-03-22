@@ -7,7 +7,7 @@ verdes, además de cultivos de interés comercial.
 
 Patricio Juan Peñalver Carvajal @patriciopenalver
 
-Luis Vicente Gordón
+Luis Vicente Gordón @luisvicentegordon
 
 Carolina Plaza Reynaldo
 
