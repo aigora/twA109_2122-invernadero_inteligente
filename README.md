@@ -28,13 +28,13 @@ el techo del invernadero.
 
 ## Sensores necesarios para la realización de este proyecto:
 
-● Módulo inalámbrico ESP32
+● Módulo inalámbrico AZDelivery ESP32 ESP-WROOM-32
 
-● Sensor de temperatura
+● Sensor de temperatura: Analog devices Inc. TMP37FT9Z
 
-● Sensor de humedad
+● Sensor de humedad: módulo YL-69 Sensor y módulo HC-38 para adaptarlo al esp32
 
-● Sensor de luminosidad
+● Sensor de luminosidad: GUVA-S12SD series Luz
 
 ● Tira led
 
