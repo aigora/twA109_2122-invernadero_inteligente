@@ -25,3 +25,21 @@ riego automático para que se active cuando haya una disminución de esta.
 ● Gracias a un sensor de temperatura la controlaremos en el interior del invernadero y
 la regulamos mediante un flujo de aire generado por dos ventiladores dispuestos en
 el techo del invernadero.
+
+## Sensores necesarios para la realización de este proyecto:
+
+● Módulo inalámbrico ESP32
+
+● Sensor de temperatura
+
+● Sensor de humedad
+
+● Sensor de luminosidad
+
+● Tira led
+
+● Ventiladores
+
+● Bomba de agua
+
+● Relés
