@@ -5,9 +5,9 @@ verdes, además de cultivos de interés comercial.
 
 ## Integrantes del equipo
 
-Patricio Juan Peñalver Carvajal
-Luis Vicente Gordón
-Carolina Plaza Reynaldo
+###Patricio Juan Peñalver Carvajal
+###Luis Vicente Gordón
+###Carolina Plaza Reynaldo
 
 ## Nuestros objetivos son:
 
