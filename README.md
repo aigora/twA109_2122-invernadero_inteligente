@@ -55,41 +55,31 @@ Adaptador para Arduino
 
 Sensor de Humedad en Suelo conectado al riego
 
-/*POSIBLES CASOS
+
 
 1 Nivel bajo de agua. Muestra humedad del suelo. Da aviso rellenar tanque
 2 Nivel agua OK. Aviso nivel OK
       2.1 Humedad suelo OK. Muestra humedad suelo
       2.2 Humedad suelo NO OK. Muestra humedad suelo. Comienza riego.
-*/
+
 
 <code>
-//Configuro pines y variables
-
 const int nivel = 9; //Pin 9 para medir el nivel de agua
 const int bomba = 13; //Pin 13 para la bomba
 const int humedadsuelo = A0; //A0 para la humedad del suelo
-
-
-///////////////////////////////parte de humedad suelo y riego
-
 void setup()
 {
   Serial.begin(9600);//Arrancamos el puerto serie a 9600
-  
-  //Configuramos entradas y salidas
+
   pinMode(humedadsuelo, INPUT);//Configuro humedadsuelo como entrada
   pinMode(bomba, OUTPUT);//Configuro bomba como salida
   pinMode(nivel, INPUT);//Configuro en nivel de agua como entrada
  }
-
 void loop()
 {
   int SensorValue = analogRead(humedadsuelo);//Leo el valor de la humedad y lo meto en SensorValue
   int SensorNivel = digitalRead(nivel); //Leo lo que marca el nivel de agua
-  
-  
-  //Imprimo por el puerto serie el valor de la humedad del suelo
+
   Serial.print("Humedad del suelo: ");Serial.print(SensorValue); Serial.println("%");
   delay(3000);
   
@@ -102,8 +92,6 @@ if (SensorNivel==1)
    Serial.println("Nivel de agua correcto, se puede regar");
    if(SensorValue >= 700) // el valor que considero seco y hay que regar es de 700
   {
-   // Si la tierra está seca, comenzara a regar
-   // Riega durante 1 segundo y espera a comprobar la humedad otro segundo
    Serial.println("La tierra está seca, comienza el riego");
    digitalWrite(bomba, HIGH);
    delay(2000);
@@ -111,8 +99,6 @@ if (SensorNivel==1)
    delay(1000);
   }
    }  
-  
-  //Si la tierra no está seca, no riega y da el valor de la humedad
   delay(1000);
 }</code>
 
