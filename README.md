@@ -50,6 +50,8 @@ Este sensor tiene la capacidad de medir la humedad del suelo. Aplicando una pequ
 Consiste en una sonda YL-69 con dos terminales separados adecuadamente y un módulo YL-38 que contiene un circuito, un led de encendido y otro de activación de salida digital.  
 módulo HC-38   
 Adaptador para Arduino  
+  
+  
 ***Sensor de Humedad en Suelo conectado al riego:***  
 1 Nivel bajo de agua. Muestra humedad del suelo. Da aviso rellenar tanque  
 2 Nivel agua OK. Aviso nivel OK  
@@ -57,7 +59,7 @@ Adaptador para Arduino
 ---2.2 Humedad suelo NO OK. Muestra humedad suelo. Comienza riego.  
   
   
-Código:
+Código:  
 <code>  
       const int nivel = 9;  
       const int bomba = 13;  
@@ -91,15 +93,16 @@ Código:
       }  
       }  
       delay(1000);  
-      }</code>
-
-
+      }</code>  
+        
+        
 **2. Sensor de temperatura y humedad ambiente DHT11**
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
-Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.
-
+Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
+  
+  
 ***Sensor de temperatura y humedad conectado a un sistema de ventilación:***
-
+<code>
 #include <DHT.h>
 
 int sensor = 2;  
@@ -133,7 +136,9 @@ void loop() {
  
  else { digitalWrite (ventilador, LOW);}
   }
-
+<\code>  
+    
+  
 **3. Sensor de luz BH1750**
 Un sensor de luminosidad es un dispositivo que permite conocer el grado de iluminación de un entorno concreto. Los sensores de luminosidad suelen estar conectados a otros dispositivos, que son los receptores de esta información respecto a la luminosidad ambiental detectada y, a partir de esta información, actúan de un modo u otro.
  
