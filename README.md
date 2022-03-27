@@ -98,7 +98,8 @@ Código:
   Un sensor de luminosidad es un dispositivo que permite conocer el grado de iluminación de un entorno concreto. Los sensores de luminosidad suelen estar conectados a otros dispositivos, que son los receptores de esta información respecto a la luminosidad ambiental detectada y, a partir de esta información, actúan de un modo u otro.
  
 Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
-***Sensor de Luz conectado a un led***
+***Sensor de Luz conectado a un led***  
+
 int led = 13;
 int lecturasensor;
 void setup() {
