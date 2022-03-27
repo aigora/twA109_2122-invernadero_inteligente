@@ -45,7 +45,7 @@ el techo del invernadero.
 ● Relés
 
 ## Sensores :
-**1. Sensor de Humedad de suelo (Módulo YL-69 Sensor)**  
+### 1. Sensor de Humedad de suelo (Módulo YL-69 Sensor) 
 Este sensor tiene la capacidad de medir la humedad del suelo. Aplicando una pequeña tensión entre los terminales del módulo YL-69 hace pasar una corriente que depende básicamente de la resistencia que se genera en el suelo y ésta depende mucho de la humedad. Por lo tanto, al aumentar la humedad la corriente crece y al bajar la corriente disminuye.  
 Consiste en una sonda YL-69 con dos terminales separados adecuadamente y un módulo YL-38 que contiene un circuito, un led de encendido y otro de activación de salida digital.  
 módulo HC-38   
@@ -97,16 +97,18 @@ Código:
       }  
       delay(1000);  
       }</code>  
-**2. Sensor de luz BH1750**  
+        
+        
+### 2. Sensor de luz BH1750 
   Un sensor de luminosidad es un dispositivo que permite conocer el grado de iluminación de un entorno concreto. Los sensores de luminosidad suelen estar conectados a otros dispositivos, que son los receptores de esta información respecto a la luminosidad ambiental detectada y, a partir de esta información, actúan de un modo u otro.
  
 Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
-***Sensor de Luz conectado a un led***  
+  
+  ***Sensor de Luz conectado a un led***  
 ![LDR (practica 4)](https://user-images.githubusercontent.com/80094858/160294673-03e7ef74-35bf-4905-962d-6ca9a813e5b6.PNG)
   
   
 Código:  
-<code>
   int led = 13;
   int lecturasensor;
   void setup() {
@@ -120,16 +122,20 @@ Código:
   }
   else{
   digitalWrite(led, LOW);}
-  }  
+  }
   
-  **3. Sensor de temperatura y humedad ambiente DHT11**  
+### 3. Sensor de temperatura y humedad ambiente DHT11
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
 Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
   
   
 ***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
+  ![mxxxx](https://user-images.githubusercontent.com/80094858/160295058-c6eea310-6315-4028-9276-4ef18c7c436d.png)
+  
+  Código:  
+  
    
-  #include <DHT.h>  
+  <code>#include <DHT.h>  
   int sensor = 2;  
   int ventilador = 13;
   int temp, humedad;
