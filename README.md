@@ -114,8 +114,8 @@ Código:
   }
   else{
   digitalWrite(led, LOW);}
-  }
-
+  }  
+  
   **3. Sensor de temperatura y humedad ambiente DHT11**  
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
 Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
