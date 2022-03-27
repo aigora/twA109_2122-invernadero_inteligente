@@ -102,6 +102,9 @@ Código:
  
 Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
 ***Sensor de Luz conectado a un led***  
+![LDR (practica 4)](https://user-images.githubusercontent.com/80094858/160294673-03e7ef74-35bf-4905-962d-6ca9a813e5b6.PNG)
+  
+  
 Código:  
 <code>
   int led = 13;
