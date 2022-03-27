@@ -101,7 +101,8 @@ El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que cont
 Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
   
   
-***Sensor de temperatura y humedad conectado a un sistema de ventilación:***
+***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
+
 <code>
 #include <DHT.h>
 int sensor = 2;  
