@@ -45,7 +45,7 @@ el techo del invernadero.
 ● Relés
 
 ## Sensores :
-<\u>Sensor de Humedad de suelo (Módulo YL-69 Sensor)<\u>
+Sensor de Humedad de suelo (Módulo YL-69 Sensor)
 Este sensor tiene la capacidad de medir la humedad del suelo. Aplicando una pequeña tensión entre los terminales del módulo YL-69 hace pasar una corriente que depende básicamente de la resistencia que se genera en el suelo y ésta depende mucho de la humedad. Por lo tanto, al aumentar la humedad la corriente crece y al bajar la corriente disminuye.
 Consiste en una sonda YL-69 con dos terminales separados adecuadamente y un módulo YL-38 que contiene un circuito, un led de encendido y otro de activación de salida digital. 
 
@@ -63,7 +63,7 @@ Sensor de Humedad en Suelo conectado al riego
       2.2 Humedad suelo NO OK. Muestra humedad suelo. Comienza riego.
 */
 
-
+`
 //Configuro pines y variables
 
 const int nivel = 9; //Pin 9 para medir el nivel de agua
@@ -114,7 +114,7 @@ if (SensorNivel==1)
   
   //Si la tierra no está seca, no riega y da el valor de la humedad
   delay(1000);
-}
+}`
 
 
 Sensor de temperatura y humedad ambiente DHT11
