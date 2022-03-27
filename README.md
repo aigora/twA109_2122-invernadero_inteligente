@@ -53,6 +53,9 @@ Adaptador para Arduino
   
   
 ***Sensor de Humedad en Suelo conectado al riego:***  
+![9_nivel_agua_humedad_suelo_bomba_agua_dht11_luz_interruptor_y_lcd_gbq1bn2llf_bb_yYoeBcocfs](https://user-images.githubusercontent.com/80094858/160294526-155fc739-2fd1-4d12-bfbf-57f01842ffee.jpg)
+  
+  
 1 Nivel bajo de agua. Muestra humedad del suelo. Da aviso rellenar tanque  
 2 Nivel agua OK. Aviso nivel OK  
 ---2.1 Humedad suelo OK. Muestra humedad suelo  
