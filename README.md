@@ -94,53 +94,11 @@ Código:
       }  
       delay(1000);  
       }</code>  
-        
-        
-**2. Sensor de temperatura y humedad ambiente DHT11**
-El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
-Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
-  
-  
-***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
-
-<code>
-#include <DHT.h>
-int sensor = 2;  
-int ventilador = 13;
-int temp, humedad;
-DHT dht (sensor, DHT11);
-void setup() {
-  Serial.begin(9600);
-  dht.begin();
-  pinMode(ventilador, OUTPUT);
-}
-void loop() {
- humedad = dht.readHumidity();
- temp = dht.readTemperature();
- Serial.print("Temperatura: ");
- Serial.print(temp);
- Serial.print("ºC Humedad: ");
- Serial.print(humedad);
- Serial.println("%");
- delay(1000);
- if (temp >= 23) { digitalWrite (ventilador, HIGH);
- Serial.print("Ventilador activo. Temperatura: ");
- Serial.print(temp);
- Serial.print(" ºC ");
- delay(5000);}
- else { digitalWrite (ventilador, LOW);}
-  }
-<\code>  
-    
-  
-**3. Sensor de luz BH1750**
-Un sensor de luminosidad es un dispositivo que permite conocer el grado de iluminación de un entorno concreto. Los sensores de luminosidad suelen estar conectados a otros dispositivos, que son los receptores de esta información respecto a la luminosidad ambiental detectada y, a partir de esta información, actúan de un modo u otro.
+**2. Sensor de luz BH1750**  
+  Un sensor de luminosidad es un dispositivo que permite conocer el grado de iluminación de un entorno concreto. Los sensores de luminosidad suelen estar conectados a otros dispositivos, que son los receptores de esta información respecto a la luminosidad ambiental detectada y, a partir de esta información, actúan de un modo u otro.
  
-Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.
-
+Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
 ***Sensor de Luz conectado a un led***
-
-
 int led = 13;
 int lecturasensor;
 void setup() {
@@ -157,3 +115,39 @@ void loop() {
   digitalWrite(led, LOW);
  }
 }
+        
+        
+**3. Sensor de temperatura y humedad ambiente DHT11**  
+El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
+Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
+  
+  
+***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
+<code>  
+  #include <DHT.h>  
+  int sensor = 2;  
+  int ventilador = 13;
+  int temp, humedad;
+  DHT dht (sensor, DHT11);
+  void setup() {
+  Serial.begin(9600);
+  dht.begin();  
+  pinMode(ventilador, OUTPUT);  
+  } 
+  void loop() {
+  humedad = dht.readHumidity();
+  temp = dht.readTemperature();
+  Serial.print("Temperatura: ");
+  Serial.print(temp);
+  Serial.print("ºC Humedad: ");
+  Serial.print(humedad);
+  Serial.println("%");
+  delay(1000);
+  if (temp >= 23) { digitalWrite (ventilador, HIGH);
+  Serial.print("Ventilador activo. Temperatura: ");
+  Serial.print(temp);
+  Serial.print(" ºC ");
+  delay(5000);}
+  else { digitalWrite (ventilador, LOW);}
+  }<\code>  
+  
