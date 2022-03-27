@@ -114,7 +114,7 @@ Código:
   }
   else{
   digitalWrite(led, LOW);}
-  }<\code>
+  }
 
   **3. Sensor de temperatura y humedad ambiente DHT11**  
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
@@ -122,8 +122,7 @@ Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. E
   
   
 ***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
-  
-<code>  
+   
   #include <DHT.h>  
   int sensor = 2;  
   int ventilador = 13;
