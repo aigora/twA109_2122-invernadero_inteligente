@@ -63,7 +63,7 @@ Sensor de Humedad en Suelo conectado al riego
       2.2 Humedad suelo NO OK. Muestra humedad suelo. Comienza riego.
 */
 
-`
+<code>
 //Configuro pines y variables
 
 const int nivel = 9; //Pin 9 para medir el nivel de agua
@@ -114,7 +114,7 @@ if (SensorNivel==1)
   
   //Si la tierra no está seca, no riega y da el valor de la humedad
   delay(1000);
-}`
+}</code>
 
 
 Sensor de temperatura y humedad ambiente DHT11
