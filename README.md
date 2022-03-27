@@ -64,13 +64,12 @@ Sensor de Humedad en Suelo conectado al riego
 
 
 <code>
-const int nivel = 9; //Pin 9 para medir el nivel de agua
-const int bomba = 13; //Pin 13 para la bomba
-const int humedadsuelo = A0; //A0 para la humedad del suelo
+const int nivel = 9; 
+const int bomba = 13;
+const int humedadsuelo = A0;
 void setup()
 {
-  Serial.begin(9600);//Arrancamos el puerto serie a 9600
-
+  Serial.begin(9600);
   pinMode(humedadsuelo, INPUT);//Configuro humedadsuelo como entrada
   pinMode(bomba, OUTPUT);//Configuro bomba como salida
   pinMode(nivel, INPUT);//Configuro en nivel de agua como entrada
@@ -79,14 +78,11 @@ void loop()
 {
   int SensorValue = analogRead(humedadsuelo);//Leo el valor de la humedad y lo meto en SensorValue
   int SensorNivel = digitalRead(nivel); //Leo lo que marca el nivel de agua
-
   Serial.print("Humedad del suelo: ");Serial.print(SensorValue); Serial.println("%");
   delay(3000);
-  
 if (SensorNivel==0)
   { Serial.println("Nivel bajo de Agua. Rellenar el tanque"); 
   delay(2000);}
-
 if (SensorNivel==1) 
   {
    Serial.println("Nivel de agua correcto, se puede regar");
