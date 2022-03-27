@@ -104,21 +104,16 @@ Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. E
 ***Sensor de temperatura y humedad conectado a un sistema de ventilación:***
 <code>
 #include <DHT.h>
-
 int sensor = 2;  
 int ventilador = 13;
 int temp, humedad;
-
 DHT dht (sensor, DHT11);
-
 void setup() {
   Serial.begin(9600);
   dht.begin();
   pinMode(ventilador, OUTPUT);
 }
-
 void loop() {
-
  humedad = dht.readHumidity();
  temp = dht.readTemperature();
  Serial.print("Temperatura: ");
@@ -127,13 +122,11 @@ void loop() {
  Serial.print(humedad);
  Serial.println("%");
  delay(1000);
- 
  if (temp >= 23) { digitalWrite (ventilador, HIGH);
  Serial.print("Ventilador activo. Temperatura: ");
  Serial.print(temp);
  Serial.print(" ºC ");
  delay(5000);}
- 
  else { digitalWrite (ventilador, LOW);}
   }
 <\code>  
