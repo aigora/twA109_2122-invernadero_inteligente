@@ -99,8 +99,8 @@ Código:
  
 Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
 ***Sensor de Luz conectado a un led***  
-
-int led = 13;
+Código:  
+<code>int led = 13;
 int lecturasensor;
 void setup() {
   serial.begin(9600);
@@ -115,7 +115,7 @@ void loop() {
  else{
   digitalWrite(led, LOW);
  }
-}
+}<\code>
         
         
 **3. Sensor de temperatura y humedad ambiente DHT11**  
