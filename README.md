@@ -50,7 +50,7 @@ Este sensor tiene la capacidad de medir la humedad del suelo. Aplicando una pequ
 Consiste en una sonda YL-69 con dos terminales separados adecuadamente y un módulo YL-38 que contiene un circuito, un led de encendido y otro de activación de salida digital.  
 módulo HC-38   
 Adaptador para Arduino  
-***Sensor de Humedad en Suelo conectado al riego:***
+***Sensor de Humedad en Suelo conectado al riego:***  
 1 Nivel bajo de agua. Muestra humedad del suelo. Da aviso rellenar tanque  
 2 Nivel agua OK. Aviso nivel OK  
 ---2.1 Humedad suelo OK. Muestra humedad suelo  
