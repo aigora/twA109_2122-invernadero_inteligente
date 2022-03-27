@@ -55,6 +55,9 @@ Adaptador para Arduino
 2 Nivel agua OK. Aviso nivel OK  
 ---2.1 Humedad suelo OK. Muestra humedad suelo  
 ---2.2 Humedad suelo NO OK. Muestra humedad suelo. Comienza riego.  
+  
+  
+Código:
 <code>  
       const int nivel = 9;  
       const int bomba = 13;  
