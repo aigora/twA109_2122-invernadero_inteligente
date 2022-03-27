@@ -100,30 +100,29 @@ Código:
 Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de todas es que nos permite hacer un uso mucho más eficiente de la energía que utilizamos, adaptando la potencia de las luminarias a la luz ambiental existente.  
 ***Sensor de Luz conectado a un led***  
 Código:  
-<code>int led = 13;
-int lecturasensor;
-void setup() {
+<code>
+  int led = 13;
+  int lecturasensor;
+  void setup() {
   serial.begin(9600);
-  pinMode(led, OUTPUT);
-}
-void loop() {
- lecturasensor= analogRead(A0);
- Serial.println(lecturasensor);
- if(lecturasensor>600){
+  pinMode(led, OUTPUT);}
+  void loop() {
+  lecturasensor= analogRead(A0);
+  Serial.println(lecturasensor);
+  if(lecturasensor>600){
   digitalWrite(led, HIGH);
- }
- else{
-  digitalWrite(led, LOW);
- }
-}<\code>
-        
-        
-**3. Sensor de temperatura y humedad ambiente DHT11**  
+  }
+  else{
+  digitalWrite(led, LOW);}
+  }<\code>
+
+  **3. Sensor de temperatura y humedad ambiente DHT11**  
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
 Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. Este sensor es ampliamente usado en el control de riego y cultivo de explotaciones agrícolas y de jardinería. Estas medidas ayudarán a las personas al cargo en la toma correcta de decisiones.  
   
   
 ***Sensor de temperatura y humedad conectado a un sistema de ventilación:***  
+  
 <code>  
   #include <DHT.h>  
   int sensor = 2;  
@@ -150,5 +149,4 @@ Además es una herramienta valiosa debido a su amplio abanico de aplicaciones. E
   Serial.print(" ºC ");
   delay(5000);}
   else { digitalWrite (ventilador, LOW);}
-  }<\code>  
-  
+  }<\code>
