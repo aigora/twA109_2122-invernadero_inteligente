@@ -108,7 +108,7 @@ Tiene muchas aplicaciones pero, de entre todas ellas, la más destacable de toda
 ![LDR (practica 4)](https://user-images.githubusercontent.com/80094858/160294673-03e7ef74-35bf-4905-962d-6ca9a813e5b6.PNG)
   
   
-Código:  
+Código:   
   int led = 13;
   int lecturasensor;
   void setup() {
@@ -122,7 +122,8 @@ Código:
   }
   else{
   digitalWrite(led, LOW);}
-  }
+  }  
+ 
   
 ### 3. Sensor de temperatura y humedad ambiente DHT11
 El sensor de temperatura y humedad digital DHT11 es un sensor compuesto que contiene una señal de salida calibrada de temperatura y humedad con un alto grado de confiabilidad y una excelente estabilidad a largo plazo.
