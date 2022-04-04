@@ -34,13 +34,11 @@ int main(void) {
 
 
 	printf("Selecciona la opcion deseada:");
-	printf("\n 1) Luz");
-	printf("\n 2) Humedad");
-	printf("\n 3) Temperatura");
+	printf("\n 1) Luz manual");
+	printf("\n 2) Humedad manual");
+	printf("\n 3) Temperatura manual");
 	printf("\n 4) Datos sensores");
-	printf("\n 5) Luz manual");
-	printf("\n 6) Humedad manual");
-	printf("\n 7) Temperatura manual");
+
 
 	comprobar_mensajes(Arduino);
 
@@ -57,25 +55,34 @@ int main(void) {
 	printf("\n Temparatura ");
 	scanf_s("%d", &umbraltemp);
 
+	if (sensorluz <= umbraluz) 
+		luces = ON;
+	else
+		luces = OFF;	
+	if (sensorhumedad <= umbralhumedad)
+		bomba = ON;
+	else
+		bomba = OFF;
+	if (sensortemp <= umbraltemp)
+		ventilador = ON;
+	else
+		ventilador = OFF;
+	
 	switch (opcion)
 	{
 	case 1:
-		if (sensorluz <= umbraluz)
-			luces = ON;
-		else
-			luces = OFF;
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d", &luces);
 		break;
+
 	case 2:
-		if (sensorhumedad <= umbralhumedad)
-			bomba = ON;
-		else
-			bomba = OFF;
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d", &bomba);
 		break;
+
 	case 3:
-		if (sensortemp <= umbraltemp)
-			ventilador = ON;
-		else
-			ventilador = OFF;
+		printf("Encender = 1/Apagar = 0");
+		scanf_s("%d", &ventilador);
 		break;
 
 	case 4:
@@ -84,20 +91,7 @@ int main(void) {
 		printf("\n Sensor temperatura: %d", sensortemp);
 		break;
 
-	case 5:
-		printf("Encender = 1/Apagar = 0");
-		scanf_s("%d", &luces);
-		break;
 
-	case 6:
-		printf("Encender = 1/Apagar = 0");
-		scanf_s("%d", &bomba);
-		break;
-
-	case 7:
-		printf("Encender = 1/Apagar = 0");
-		scanf_s("%d", &ventilador);
-		break;
 	}
 }
 
@@ -108,11 +102,11 @@ int menu_ppal(void)
 	do
 	{
 		scanf_s("%d", &opcion);
-		if (opcion < 1 || opcion > 7)
+		if (opcion < 1 || opcion > 4)
 			printf("ERROR\n Introduzca otra opcion");
 		else
 			printf("Ha seleccionado la opcion %d", opcion);
-	} while (opcion < 1 || opcion > 7);
+	} while (opcion < 1 || opcion > 4);
 	return opcion;
 }
 void comprobar_mensajes(Serial* Arduino)
