@@ -2,11 +2,12 @@
 #define SensorPin A0
 #define LUZ A1
 DHT dht(2, DHT11);
-float h;
+
 float t;
 float dospinchos;
 float valorluz;
 int pin=9;
+
 void setup()
 {
   // Tareas de configuración 
@@ -27,17 +28,13 @@ void loop()
     hum();
     tem();
     luz();
+    activarled();
+    activarvent();
     
-  float h = dht.readHumidity();
   float t = dht.readTemperature();
   float valorluz=0;
   valorluz = analogRead(LUZ);
-  float dospinchos = 0;//Valor del sensor//
-  for (int i = 0; i <= 100; i++) 
-  { 
-    dospinchos = dospinchos + analogRead(SensorPin);  
-  } 
-  dospinchos = dospinchos/100.0; 
+  float dospinchos = analogRead(SensorPin);;//Valor del sensor// 
   Serial.println(dospinchos);  
   
 }
@@ -75,9 +72,6 @@ void datos(void)
  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
  if (cadena.equals("DATOS")) // Requisito 4
  {
-  Serial.print("Humedad: ");
-  Serial.print(h);
-  Serial.print(" % ");
   Serial.print("Humedad del suelo: ");
   Serial.println(dospinchos);
   Serial.print(" % ");
@@ -93,6 +87,27 @@ void datos(void)
  {
  String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
  if (cadena.equals("BOMBA")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+  {
+  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
+  delay (10000);//ESPERAR 10 SEGUNDOS
+  digitalWrite(pin,LOW);
+  delay(10000);  
+    }
+  }
+   void activarled(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
+ {
+ String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
+ if (cadena.equals("LED")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+  {
+  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
+  delay (10000);//ESPERAR 10 SEGUNDOS
+  digitalWrite(pin,LOW);
+  delay(10000);  
+    }
+  }
+  void activarvent(void){
+     String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
+ if (cadena.equals("VENT")) //SI LA CADENA RECIBIDA "DICE" BOMBA
   {
   digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
   delay (10000);//ESPERAR 10 SEGUNDOS
