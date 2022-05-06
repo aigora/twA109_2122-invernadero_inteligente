@@ -4,21 +4,21 @@
 #include <locale.h>
 #include <conio.h>
 #include "SerialClass/SerialClass.h"
+
 #define MAX_BUFFER 200
 #define PAUSA_MS 200 
 #define ON 1
 #define OFF 0
 
 int menu_ppal(void);
+void act_bomba(Serial*);
 void comprobar_mensajes(Serial*);
 float leer_sensor_temperatura(Serial*);
 float leer_sensor_humedad(Serial*);
 float leer_sensor_luz(Serial*);
 int Enviar_y_Recibir(Serial*, const char*, char*);
 float float_from_cadena(char* cadena);
-
-
-
+void Send_to_hw(Serial*, char*);
 
 int main(void) {
 	Serial* Arduino;
@@ -38,7 +38,8 @@ int main(void) {
 	printf("\n 2) Humedad manual");
 	printf("\n 3) Temperatura manual");
 	printf("\n 4) Datos sensores");
-
+	printf("\n 5) Actuadores automaticos");
+	printf("\n 6) Cerrar aplicacion");
 
 	comprobar_mensajes(Arduino);
 
@@ -47,37 +48,20 @@ int main(void) {
 	sensorhumedad = leer_sensor_humedad(Arduino);
 	sensortemp = leer_sensor_temperatura(Arduino);
 
-	printf("\nIntroduce los valores umbrales de los sensores\n");
-	printf("Humedad ");
-	scanf_s("%d", &umbraluz);
-	printf("\nLuz ");
-	scanf_s("%d", &umbralhumedad);
-	printf("\n Temparatura ");
-	scanf_s("%d", &umbraltemp);
-
-	if (sensorluz <= umbraluz) 
-		luces = ON;
-	else
-		luces = OFF;	
-	if (sensorhumedad <= umbralhumedad)
-		bomba = ON;
-	else
-		bomba = OFF;
-	if (sensortemp <= umbraltemp)
-		ventilador = ON;
-	else
-		ventilador = OFF;
 	
 	switch (opcion)
 	{
 	case 1:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &luces);
+
 		break;
 
 	case 2:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &bomba);
+		if(bomba=1)
+			act_bomba(Arduino);
 		break;
 
 	case 3:
@@ -90,9 +74,33 @@ int main(void) {
 		printf("\n Sensor humedad: %d", sensorhumedad);
 		printf("\n Sensor temperatura: %d", sensortemp);
 		break;
+	case 5:
 
+		printf("\nIntroduce los valores umbrales de los sensores\n");
+		printf("Humedad ");
+		scanf_s("%d", &umbraluz);
+		printf("\nLuz ");
+		scanf_s("%d", &umbralhumedad);
+		printf("\n Temparatura ");
+		scanf_s("%d", &umbraltemp);
 
+		if (sensorluz <= umbraluz)
+			luces = ON;
+		else
+			luces = OFF;
+		if (sensorhumedad <= umbralhumedad)
+			bomba = ON;
+		else
+			bomba = OFF;
+		if (sensortemp <= umbraltemp)
+			ventilador = ON;
+		else
+			ventilador = OFF;
+		break;
+	case 6:
+		break;
 	}
+
 }
 
 
@@ -102,11 +110,11 @@ int menu_ppal(void)
 	do
 	{
 		scanf_s("%d", &opcion);
-		if (opcion < 1 || opcion > 4)
+		if (opcion < 1 || opcion > 6)
 			printf("ERROR\n Introduzca otra opcion");
 		else
 			printf("Ha seleccionado la opcion %d", opcion);
-	} while (opcion < 1 || opcion > 4);
+	} while (opcion < 1 || opcion > 6);
 	return opcion;
 }
 void comprobar_mensajes(Serial* Arduino)
@@ -236,3 +244,19 @@ float float_from_cadena(char* cadena)
 		}
 	return numero;
 }
+void act_bomba(Serial* Arduino)
+{
+	char BufferSalida[MAX_BUFFER];
+	char BufferEntrada[MAX_BUFFER];
+	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
+	{
+		sprintf_s(BufferSalida, "BOMBA\n");
+		Send_to_hw(Arduino, BufferSalida);
+		printf("\nSe ha activado el riego manual\n");
+	}
+}
+void Send_to_hw(Serial* Arduino, char* BufferSalida)
+{
+	Arduino->WriteData(BufferSalida, strlen(BufferSalida));
+}
+
