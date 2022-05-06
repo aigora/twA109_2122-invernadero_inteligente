@@ -2,7 +2,11 @@
 #define SensorPin A0
 #define LUZ A1
 DHT dht(2, DHT11);
-
+float h;
+float t;
+float dospinchos;
+float valorluz;
+int pin=9;
 void setup()
 {
   // Tareas de configuración 
