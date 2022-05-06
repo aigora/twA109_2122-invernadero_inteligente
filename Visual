@@ -19,10 +19,19 @@ float leer_sensor_luz(Serial*);
 int Enviar_y_Recibir(Serial*, const char*, char*);
 float float_from_cadena(char* cadena);
 void Send_to_hw(Serial*, char*);
+void act_led(Serial*);
+void act_vent(Serial*);
+
+/*typedef struct
+{
+	float luz;
+	float temp;
+	float hum;
+}*/
 
 int main(void) {
 	Serial* Arduino;
-	char puerto[] = "COM6"; // Puerto serie al que está conectado Arduino
+	char puerto[] = "COM7"; // Puerto serie al que está conectado Arduino
 	int opcion_menu;
 	int sensorluz, umbraluz = 0, luces;
 	int sensorhumedad, umbralhumedad = 0, bomba;
@@ -65,7 +74,7 @@ int main(void) {
 		break;
 
 	case 3:
-		printf("Encender = 1/Apagar = 0");
+		printf("Encender = 1 Apagar = 0");
 		scanf_s("%d", &ventilador);
 		break;
 
@@ -113,7 +122,7 @@ int menu_ppal(void)
 		if (opcion < 1 || opcion > 6)
 			printf("ERROR\n Introduzca otra opcion");
 		else
-			printf("Ha seleccionado la opcion %d", opcion);
+			printf("Ha seleccionado la opcion %d ", opcion);
 	} while (opcion < 1 || opcion > 6);
 	return opcion;
 }
@@ -255,8 +264,29 @@ void act_bomba(Serial* Arduino)
 		printf("\nSe ha activado el riego manual\n");
 	}
 }
+void act_led(Serial* Arduino)
+{
+	char BufferSalida[MAX_BUFFER];
+	char BufferEntrada[MAX_BUFFER];
+	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
+	{
+		sprintf_s(BufferSalida, "LED\n");
+		Send_to_hw(Arduino, BufferSalida);
+		printf("\nSe han activado los leds\n");
+	}
+}
+void act_vent(Serial* Arduino)
+{
+	char BufferSalida[MAX_BUFFER];
+	char BufferEntrada[MAX_BUFFER];
+	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
+	{
+		sprintf_s(BufferSalida, "VENT\n");
+		Send_to_hw(Arduino, BufferSalida);
+		printf("\nSe ha activado el ventilador");
+	}
+}
 void Send_to_hw(Serial* Arduino, char* BufferSalida)
 {
 	Arduino->WriteData(BufferSalida, strlen(BufferSalida));
 }
-
