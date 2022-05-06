@@ -1,1 +1,98 @@
+#include "DHT.h"
+#define SensorPin A0
+#define LUZ A1
+DHT dht(2, DHT11);
 
+void setup()
+{
+  // Tareas de configuración 
+
+  Serial.begin(9600);
+  // PREPARAR LA LIBRERIA PARA COMUNICARSE CON EL SENSOR//
+  dht.begin();
+
+  pinMode(pin,OUTPUT);
+}
+
+void loop()
+{
+    
+      if (Serial.available() > 0)  // Si hay mensajes procedentes del PC  
+    activarbomba();
+    datos();
+    hum();
+    tem();
+    luz();
+    
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  float valorluz=0;
+  valorluz = analogRead(LUZ);
+  float dospinchos = 0;//Valor del sensor//
+  for (int i = 0; i <= 100; i++) 
+  { 
+    dospinchos = dospinchos + analogRead(SensorPin);  
+  } 
+  dospinchos = dospinchos/100.0; 
+  Serial.println(dospinchos);  
+  
+}
+  
+   // Resto de acciones 
+void hum(void){
+  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
+ if (cadena.equals("GET_HUM")) // Requisito 4
+ {
+  Serial.print("Humedad del suelo: ");
+  Serial.println(dospinchos);
+  Serial.print(" % ");
+ }
+}
+void tem(void){
+  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
+ if (cadena.equals("GET_TEMP")) // Requisito 4
+ {
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C");
+  }
+}
+void luz(void){
+  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
+ if (cadena.equals("GET_LUZ")) // Requisito 4
+ {
+  Serial.print("Valor luz: ");
+  Serial.println(valorluz);
+  }
+}
+
+void datos(void)
+{
+ String cadena = Serial.readStringUntil('\n'); // Lee mensaje
+ if (cadena.equals("DATOS")) // Requisito 4
+ {
+  Serial.print("Humedad: ");
+  Serial.print(h);
+  Serial.print(" % ");
+  Serial.print("Humedad del suelo: ");
+  Serial.println(dospinchos);
+  Serial.print(" % ");
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C");// Requisito 6
+  Serial.print("Valor luz: ");
+  Serial.println(valorluz);
+ }
+}
+
+ void activarbomba(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
+ {
+ String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
+ if (cadena.equals("BOMBA")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+  {
+  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
+  delay (10000);//ESPERAR 10 SEGUNDOS
+  digitalWrite(pin,LOW);
+  delay(10000);  
+    }
+  }
