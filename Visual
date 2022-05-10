@@ -37,9 +37,6 @@ int main(void) {
 	int umbralhumedad = 0, bomba;
 	int umbraltemp = 0, ventilador;
 	int opcion = 0;
-	/*int sensorluz;
-	int sensorhumedad;
-	int sensortemp;*/
 	sensores datsen;
 	
 	
@@ -57,10 +54,7 @@ int main(void) {
 	printf("\n 6) Cerrar aplicacion");
 
 	comprobar_mensajes(Arduino);
-	/*sensorluz = leer_sensor_luz(Arduino);
-	sensorhumedad = leer_sensor_humedad(Arduino);
-	sensortemp = leer_sensor_temperatura(Arduino);*/
-
+	
 	opcion = menu_ppal();
 	datsen.sensorhumedad = leer_sensor_humedad(Arduino);
 	datsen.sensorluz = leer_sensor_luz(Arduino);
