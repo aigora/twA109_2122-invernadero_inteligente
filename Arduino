@@ -86,7 +86,7 @@ void datos(void)
  void activarbomba(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
  {
  String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("BOMBA")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+ if (cadena.equals("BOMBA")) //SI LA CADENA RECIBIDA DICE "BOMBA"
   {
   digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
   delay (10000);//ESPERAR 10 SEGUNDOS
@@ -97,7 +97,7 @@ void datos(void)
    void activarled(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
  {
  String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("LED")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+ if (cadena.equals("LED")) //SI LA CADENA RECIBIDA DICE "LED"
   {
   digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
   delay (10000);//ESPERAR 10 SEGUNDOS
@@ -107,7 +107,7 @@ void datos(void)
   }
   void activarvent(void){
      String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("VENT")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+ if (cadena.equals("VENT")) //SI LA CADENA RECIBIDA DICE "VENT"
   {
   digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
   delay (10000);//ESPERAR 10 SEGUNDOS
