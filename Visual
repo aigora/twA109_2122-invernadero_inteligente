@@ -66,39 +66,43 @@ int main(void) {
 	case 1:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &luces);
-
+		act_led(Arduino);
 		break;
 
 	case 2:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &bomba);
-		if(bomba == 1)
+		if (bomba == 1)
 			act_bomba(Arduino);
 		break;
 
 	case 3:
 		printf("Encender = 1 Apagar = 0");
 		scanf_s("%d", &ventilador);
+		act_vent(Arduino);
 		break;
 
 	case 4:
 
 		printf("Introduzca las veces que quieres leer los datos");
-		
+
 		scanf_s("%d", &n);
-		
+
 		datememoria = (sensores*)malloc(sizeof(sensores) * n);
-		
-		for (i = 0; i < n; i++) {
-			datsen.sensorhumedad = leer_sensor_humedad(Arduino);
-			datsen.sensorluz = leer_sensor_luz(Arduino);
-			datsen.sensortemp = leer_sensor_temperatura(Arduino);
-			datememoria->sensorhumedad = datsen.sensorhumedad;
-			datememoria->sensorluz = datsen.sensorluz;
-			datememoria->sensortemp = datsen.sensortemp;
-			printf("\n Sensor luz: %d", datememoria->sensorluz);
-			printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
-			printf("\n Sensor temperatura: %d", datememoria->sensortemp);
+		if (datememoria == NULL)
+			printf("Memoria insuficiente");
+		else {
+			for (i = 0; i < n; i++) {
+				datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+				datsen.sensorluz = leer_sensor_luz(Arduino);
+				datsen.sensortemp = leer_sensor_temperatura(Arduino);
+				datememoria->sensorhumedad = datsen.sensorhumedad;
+				datememoria->sensorluz = datsen.sensorluz;
+				datememoria->sensortemp = datsen.sensortemp;
+				printf("\n Sensor luz: %d", datememoria->sensorluz);
+				printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
+				printf("\n Sensor temperatura: %d", datememoria->sensortemp);
+			}
 		}
 
 		break;
@@ -112,16 +116,23 @@ int main(void) {
 		printf("\n Temparatura ");
 		scanf_s("%d", &umbraltemp);
 
-		if (datsen.sensorluz <= umbraluz)
+		if (datsen.sensorluz <= umbraluz) {
 			luces = ON;
+			act_led(Arduino);
+		}
 		else
 			luces = OFF;
 		if (datsen.sensorhumedad <= umbralhumedad)
+		{
 			bomba = ON;
+			act_bomba(Arduino);
+		}
 		else
 			bomba = OFF;
-		if (datsen.sensortemp <= umbraltemp)
-			ventilador = ON;
+		if (datsen.sensortemp <= umbraltemp) {
+		ventilador = ON;
+		act_vent(Arduino);
+	}
 		else
 			ventilador = OFF;
 		break;
