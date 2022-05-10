@@ -36,8 +36,9 @@ int main(void) {
 	int umbraluz = 0, luces;
 	int umbralhumedad = 0, bomba;
 	int umbraltemp = 0, ventilador;
-	int opcion = 0;
+	int opcion = 0,n,i;
 	sensores datsen;
+	sensores *datememoria;
 	
 	
 
@@ -54,7 +55,7 @@ int main(void) {
 	printf("\n 6) Cerrar aplicacion");
 
 	comprobar_mensajes(Arduino);
-	
+
 	opcion = menu_ppal();
 	datsen.sensorhumedad = leer_sensor_humedad(Arduino);
 	datsen.sensorluz = leer_sensor_luz(Arduino);
@@ -81,9 +82,25 @@ int main(void) {
 		break;
 
 	case 4:
-		printf("\n Sensor luz: %d", datsen.sensorluz);
-		printf("\n Sensor humedad: %d", datsen.sensorhumedad);
-		printf("\n Sensor temperatura: %d", datsen.sensortemp);
+
+		printf("Introduzca las veces que quieres leer los datos");
+		
+		scanf_s("%d", &n);
+		
+		datememoria = (sensores*)malloc(sizeof(sensores) * n);
+		
+		for (i = 0; i < n; i++) {
+			datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+			datsen.sensorluz = leer_sensor_luz(Arduino);
+			datsen.sensortemp = leer_sensor_temperatura(Arduino);
+			datememoria->sensorhumedad = datsen.sensorhumedad;
+			datememoria->sensorluz = datsen.sensorluz;
+			datememoria->sensortemp = datsen.sensortemp;
+			printf("\n Sensor luz: %d", datememoria->sensorluz);
+			printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
+			printf("\n Sensor temperatura: %d", datememoria->sensortemp);
+		}
+
 		break;
 	case 5:
 
