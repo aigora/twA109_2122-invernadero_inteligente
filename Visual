@@ -22,21 +22,27 @@ void Send_to_hw(Serial*, char*);
 void act_led(Serial*);
 void act_vent(Serial*);
 
-/*typedef struct
+typedef struct
 {
-	float luz;
-	float temp;
-	float hum;
-}*/
+	int sensorluz;
+	int sensorhumedad;
+	int sensortemp;
+}sensores;
 
 int main(void) {
 	Serial* Arduino;
 	char puerto[] = "COM7"; // Puerto serie al que está conectado Arduino
 	int opcion_menu;
-	int sensorluz, umbraluz = 0, luces;
-	int sensorhumedad, umbralhumedad = 0, bomba;
-	int sensortemp, umbraltemp = 0, ventilador;
+	int umbraluz = 0, luces;
+	int umbralhumedad = 0, bomba;
+	int umbraltemp = 0, ventilador;
 	int opcion = 0;
+	/*int sensorluz;
+	int sensorhumedad;
+	int sensortemp;*/
+	sensores datsen;
+	
+	
 
 	setlocale(LC_ALL, "es-ES");
 	Arduino = new Serial((char*)puerto);
@@ -51,13 +57,15 @@ int main(void) {
 	printf("\n 6) Cerrar aplicacion");
 
 	comprobar_mensajes(Arduino);
+	/*sensorluz = leer_sensor_luz(Arduino);
+	sensorhumedad = leer_sensor_humedad(Arduino);
+	sensortemp = leer_sensor_temperatura(Arduino);*/
 
 	opcion = menu_ppal();
-	sensorluz = leer_sensor_luz(Arduino);
-	sensorhumedad = leer_sensor_humedad(Arduino);
-	sensortemp = leer_sensor_temperatura(Arduino);
+	datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+	datsen.sensorluz = leer_sensor_luz(Arduino);
+	datsen.sensortemp = leer_sensor_temperatura(Arduino);
 
-	
 	switch (opcion)
 	{
 	case 1:
@@ -69,7 +77,7 @@ int main(void) {
 	case 2:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &bomba);
-		if(bomba=1)
+		if(bomba == 1)
 			act_bomba(Arduino);
 		break;
 
@@ -79,9 +87,9 @@ int main(void) {
 		break;
 
 	case 4:
-		printf("\n Sensor luz: %d", sensorluz);
-		printf("\n Sensor humedad: %d", sensorhumedad);
-		printf("\n Sensor temperatura: %d", sensortemp);
+		printf("\n Sensor luz: %d", datsen.sensorluz);
+		printf("\n Sensor humedad: %d", datsen.sensorhumedad);
+		printf("\n Sensor temperatura: %d", datsen.sensortemp);
 		break;
 	case 5:
 
@@ -93,15 +101,15 @@ int main(void) {
 		printf("\n Temparatura ");
 		scanf_s("%d", &umbraltemp);
 
-		if (sensorluz <= umbraluz)
+		if (datsen.sensorluz <= umbraluz)
 			luces = ON;
 		else
 			luces = OFF;
-		if (sensorhumedad <= umbralhumedad)
+		if (datsen.sensorhumedad <= umbralhumedad)
 			bomba = ON;
 		else
 			bomba = OFF;
-		if (sensortemp <= umbraltemp)
+		if (datsen.sensortemp <= umbraltemp)
 			ventilador = ON;
 		else
 			ventilador = OFF;
@@ -115,7 +123,7 @@ int main(void) {
 
 int menu_ppal(void)
 {
-	int opcion = 0;
+	int opcion;
 	do
 	{
 		scanf_s("%d", &opcion);
