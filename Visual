@@ -3,15 +3,26 @@
 #include <string.h>
 #include <locale.h>
 #include <conio.h>
-#include "SerialClass/SerialClass.h"
+#include "SerialClass.h"
 
 #define MAX_BUFFER 200
 #define PAUSA_MS 200 
 #define ON 1
 #define OFF 0
+#define MAXCAD 20
+#define FILENAME "data.txt"
+
+typedef struct
+{
+	int sensorluz;
+	int sensorhumedad;
+	int sensortemp;
+} sensores;
 
 int menu_ppal(void);
-void act_bomba(Serial*);
+void act_led(Serial*, int);
+void act_bomba(Serial*, int);
+void act_vent(Serial*, int);
 void comprobar_mensajes(Serial*);
 float leer_sensor_temperatura(Serial*);
 float leer_sensor_humedad(Serial*);
@@ -19,15 +30,8 @@ float leer_sensor_luz(Serial*);
 int Enviar_y_Recibir(Serial*, const char*, char*);
 float float_from_cadena(char* cadena);
 void Send_to_hw(Serial*, char*);
-void act_led(Serial*);
-void act_vent(Serial*);
-
-typedef struct
-{
-	int sensorluz;
-	int sensorhumedad;
-	int sensortemp;
-}sensores;
+void escribir_fichero_datos(sensores*);
+int preguntar_opcion();
 
 int main(void) {
 	Serial* Arduino;
@@ -45,104 +49,98 @@ int main(void) {
 	setlocale(LC_ALL, "es-ES");
 	Arduino = new Serial((char*)puerto);
 
-
-	printf("Selecciona la opcion deseada:");
-	printf("\n 1) Luz manual");
-	printf("\n 2) Humedad manual");
-	printf("\n 3) Temperatura manual");
-	printf("\n 4) Datos sensores");
-	printf("\n 5) Actuadores automaticos");
-	printf("\n 6) Cerrar aplicacion");
-
 	comprobar_mensajes(Arduino);
 
-	opcion = menu_ppal();
-	datsen.sensorhumedad = leer_sensor_humedad(Arduino);
-	datsen.sensorluz = leer_sensor_luz(Arduino);
-	datsen.sensortemp = leer_sensor_temperatura(Arduino);
+	while (opcion != 6) {
+		opcion = menu_ppal();
+		datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+		datsen.sensorluz = leer_sensor_luz(Arduino);
+		datsen.sensortemp = leer_sensor_temperatura(Arduino);
 
-	switch (opcion)
-	{
-	case 1:
-		printf("Encender = 1/Apagar = 0");
-		scanf_s("%d", &luces);
-		if (luces == 1)
-			act_led(Arduino);
-		break;
-
-	case 2:
-		printf("Encender = 1/Apagar = 0");
-		scanf_s("%d", &bomba);
-		if (bomba == 1)
-			act_bomba(Arduino);
-		break;
-
-	case 3:
-		printf("Encender = 1 Apagar = 0");
-		scanf_s("%d", &ventilador);
-		if (ventilador == 1)
-			act_vent(Arduino);
-		break;
-
-	case 4:
-
-		printf("Introduzca las veces que quieres leer los datos");
-
-		scanf_s("%d", &n);
-
-		datememoria = (sensores*)malloc(sizeof(sensores) * n);
-		if (datememoria == NULL)
-			printf("Memoria insuficiente");
-		else {
-			for (i = 0; i < n; i++) {
-				datsen.sensorhumedad = leer_sensor_humedad(Arduino);
-				datsen.sensorluz = leer_sensor_luz(Arduino);
-				datsen.sensortemp = leer_sensor_temperatura(Arduino);
-				datememoria->sensorhumedad = datsen.sensorhumedad;
-				datememoria->sensorluz = datsen.sensorluz;
-				datememoria->sensortemp = datsen.sensortemp;
-				printf("\n Sensor luz: %d", datememoria->sensorluz);
-				printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
-				printf("\n Sensor temperatura: %d", datememoria->sensortemp);
-			}
-		}
-
-		break;
-	case 5:
-
-		printf("\nIntroduce los valores umbrales de los sensores\n");
-		printf("Humedad ");
-		scanf_s("%d", &umbraluz);
-		printf("\nLuz ");
-		scanf_s("%d", &umbralhumedad);
-		printf("\n Temparatura ");
-		scanf_s("%d", &umbraltemp);
-
-		if (datsen.sensorluz <= umbraluz) {
-			luces = ON;
-			act_led(Arduino);
-		}
-		else
-			luces = OFF;
-		if (datsen.sensorhumedad <= umbralhumedad)
+		switch (opcion)
 		{
-			bomba = ON;
-			act_bomba(Arduino);
-		}
-		else
-			bomba = OFF;
-		if (datsen.sensortemp <= umbraltemp) {
-			ventilador = ON;
-			act_vent(Arduino);
-		}
-		else
-			ventilador = OFF;
-		break;
-	case 6:
-		break;
-	default: printf("\nOpción incorrecta\n");
-	}
+		case 1:
+			do {
+				luces = preguntar_opcion();
+				act_led(Arduino, luces);
+			} while (luces != 2);
+			break;
 
+		case 2:
+			do {
+				bomba = preguntar_opcion();
+				act_led(Arduino, bomba);
+			} while (bomba != 2);
+			break;
+
+		case 3:
+			do {
+				ventilador = preguntar_opcion();
+				act_led(Arduino, ventilador);
+			} while (ventilador != 2);
+			break;
+
+		case 4:
+			int mill;
+			printf("Introduzca las veces que quieres leer los datos: ");
+			scanf_s("%d", &n);
+			printf("Introduzca los milisegundos entre lecturas: ");
+			scanf_s("%d", &mill);
+
+
+
+			datememoria = (sensores*)malloc(sizeof(sensores) * n);
+			if (datememoria == NULL)
+				printf("Memoria insuficiente");
+			else {
+				for (i = 0; i < n; i++) {
+					datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+					datsen.sensorluz = leer_sensor_luz(Arduino);
+					datsen.sensortemp = leer_sensor_temperatura(Arduino);
+					datememoria->sensorhumedad = datsen.sensorhumedad;
+					datememoria->sensorluz = datsen.sensorluz;
+					datememoria->sensortemp = datsen.sensortemp;
+					printf("\n Sensor luz: %d", datememoria->sensorluz);
+					printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
+					printf("\n Sensor temperatura: %d", datememoria->sensortemp);
+					escribir_fichero_datos(datememoria);
+					Sleep(mill);
+				}
+			}
+
+			break;
+		case 5:
+
+			printf("\nIntroduce los valores umbrales de los sensores\n");
+			printf("Humedad ");
+			scanf_s("%d", &umbraluz);
+			printf("\nLuz ");
+			scanf_s("%d", &umbralhumedad);
+			printf("\n Temparatura ");
+			scanf_s("%d", &umbraltemp);
+
+			if (datsen.sensorluz <= umbraluz)
+				act_led(Arduino, ON);
+			else
+				act_led(Arduino, OFF);
+			if (datsen.sensorhumedad <= umbralhumedad)
+				act_bomba(Arduino, ON);
+			else
+				act_bomba(Arduino, OFF);
+			if (datsen.sensortemp <= umbraltemp)
+				act_vent(Arduino, ON);
+			else
+				act_vent(Arduino, OFF);
+			break;
+		case 6:
+			printf("\n¡Hasta otra!\n\n");
+			break;
+		default: printf("\nERRROR: ¡Opción incorrecta!\n");
+
+		}
+	}
+	
+	return 0;
 }
 
 
@@ -151,12 +149,23 @@ int menu_ppal(void)
 	int opcion;
 	do
 	{
+		system("cls");
+		printf("Selecciona la opcion deseada:");
+		printf("\n 1) Luz manual");
+		printf("\n 2) Humedad manual");
+		printf("\n 3) Temperatura manual");
+		printf("\n 4) Datos sensores");
+		printf("\n 5) Actuadores automaticos");
+		printf("\n 6) Cerrar aplicacion");
+		printf("\n Opción: ");
+
 		scanf_s("%d", &opcion);
 		if (opcion < 1 || opcion > 6)
 			printf("ERROR\n Introduzca otra opcion");
 		else
 			printf("Ha seleccionado la opcion %d ", opcion);
 	} while (opcion < 1 || opcion > 6);
+
 	return opcion;
 }
 
@@ -293,7 +302,7 @@ float float_from_cadena(char* cadena)
 	return numero;
 }
 
-void act_bomba(Serial* Arduino)
+void act_bomba(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
 	char BufferEntrada[MAX_BUFFER];
@@ -305,7 +314,7 @@ void act_bomba(Serial* Arduino)
 	}
 }
 
-void act_led(Serial* Arduino)
+void act_led(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
 	char BufferEntrada[MAX_BUFFER];
@@ -317,7 +326,7 @@ void act_led(Serial* Arduino)
 	}
 }
 
-void act_vent(Serial* Arduino)
+void act_vent(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
 	char BufferEntrada[MAX_BUFFER];
@@ -332,4 +341,61 @@ void act_vent(Serial* Arduino)
 void Send_to_hw(Serial* Arduino, char* BufferSalida)
 {
 	Arduino->WriteData(BufferSalida, strlen(BufferSalida));
+}
+
+void escribir_fichero_datos(sensores* data)
+{
+
+	// Creo la variable y abro el fichero
+	FILE* file;
+	errno_t err;
+
+	err = fopen_s(&file, FILENAME, "a");
+	//fseek(file, 0, SEEK_END);// Movemos el puntero del archivo al final del mismo
+	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
+	{
+		fprintf(file, "Luz %s\n", data->sensorluz);
+		fprintf(file, "Humedad %s\n", data->sensorhumedad);
+		fprintf(file, "Temperatura %s\n\n", data->sensortemp);
+
+
+		fclose(file);
+	}
+	else printf("Se ha producido un error al abrir el fichero de datos.\n");
+
+	//while (!feof(file))
+}
+
+void leer_fichero_datos() {
+	FILE* file;
+	errno_t err;
+	char *luz, *humedad, *temp, *trash;
+
+	err = fopen_s(&file, FILENAME, "a");
+	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
+	{
+		while (!feof(file)) {
+			fgets(trash, MAXCAD, file);
+			fgets(luz, MAXCAD, file);
+			fgets(trash, MAXCAD, file);
+			fgets(humedad, MAXCAD, file);
+			fgets(trash, MAXCAD, file);
+			fgets(temp, MAXCAD, file);
+
+			printf("\nLuz: %s\nHumedad: %s\nTemperatura: %s\n\n", luz, humedad, temp);
+		}
+	}
+}
+
+int preguntar_opcion() {
+	int opc;
+
+	do {
+		printf("\nApagar = 0 / Encender = 1 / Salir = 2: ");
+		scanf_s("%d", &opc);
+
+		if (opc < 0 && opc > 2) printf("\n¡Opción incorrecta!");
+	} while (opc < 0 && opc > 2);
+
+	return opc;
 }
