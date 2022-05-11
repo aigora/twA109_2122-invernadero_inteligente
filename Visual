@@ -384,6 +384,7 @@ void leer_fichero_datos() {
 			printf("\nLuz: %s\nHumedad: %s\nTemperatura: %s\n\n", luz, humedad, temp);
 		}
 	}
+	fclose(file); //se cierra el fichero
 }
 
 int preguntar_opcion() {
