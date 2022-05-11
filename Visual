@@ -82,9 +82,9 @@ int main(void) {
 
 		case 4:
 			int mill;
-			printf("Introduzca las veces que quieres leer los datos: ");
+			printf("\nIntroduzca las veces que quieres leer los datos: ");
 			scanf_s("%d", &n);
-			printf("Introduzca los milisegundos entre lecturas: ");
+			printf("\nIntroduzca los milisegundos entre lecturas: ");
 			scanf_s("%d", &mill);
 
 
