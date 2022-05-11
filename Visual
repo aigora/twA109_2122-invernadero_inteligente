@@ -369,7 +369,8 @@ void escribir_fichero_datos(sensores* data)
 void leer_fichero_datos() {
 	FILE* file;
 	errno_t err;
-	char *luz, *humedad, *temp, *trash;
+	char luz[MAX_BUFFER], humedad[MAX_BUFFER];
+	char temp[MAX_BUFFER], trash[MAX_BUFFER];
 
 	err = fopen_s(&file, FILENAME, "a");
 	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
