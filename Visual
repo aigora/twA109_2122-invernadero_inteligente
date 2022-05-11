@@ -36,11 +36,11 @@ int main(void) {
 	int umbraluz = 0, luces;
 	int umbralhumedad = 0, bomba;
 	int umbraltemp = 0, ventilador;
-	int opcion = 0,n,i;
+	int opcion = 0, n, i;
 	sensores datsen;
-	sensores *datememoria;
-	
-	
+	sensores* datememoria;
+
+
 
 	setlocale(LC_ALL, "es-ES");
 	Arduino = new Serial((char*)puerto);
@@ -66,7 +66,8 @@ int main(void) {
 	case 1:
 		printf("Encender = 1/Apagar = 0");
 		scanf_s("%d", &luces);
-		act_led(Arduino);
+		if (luces == 1)
+			act_led(Arduino);
 		break;
 
 	case 2:
@@ -79,7 +80,8 @@ int main(void) {
 	case 3:
 		printf("Encender = 1 Apagar = 0");
 		scanf_s("%d", &ventilador);
-		act_vent(Arduino);
+		if (ventilador == 1)
+			act_vent(Arduino);
 		break;
 
 	case 4:
@@ -130,14 +132,15 @@ int main(void) {
 		else
 			bomba = OFF;
 		if (datsen.sensortemp <= umbraltemp) {
-		ventilador = ON;
-		act_vent(Arduino);
-	}
+			ventilador = ON;
+			act_vent(Arduino);
+		}
 		else
 			ventilador = OFF;
 		break;
 	case 6:
 		break;
+	default: printf("\nOpción incorrecta\n");
 	}
 
 }
@@ -156,6 +159,7 @@ int menu_ppal(void)
 	} while (opcion < 1 || opcion > 6);
 	return opcion;
 }
+
 void comprobar_mensajes(Serial* Arduino)
 {
 	int bytesRecibidos, total = 0;
@@ -174,6 +178,7 @@ void comprobar_mensajes(Serial* Arduino)
 		printf("\nMensaje recibido: %s\n", mensaje_recibido);
 	}
 }
+
 int Enviar_y_Recibir(Serial* Arduino, const char* mensaje_enviar, char* mensaje_recibir)
 {
 	int bytes_recibidos = 0, total = 0;
@@ -204,6 +209,7 @@ int Enviar_y_Recibir(Serial* Arduino, const char* mensaje_enviar, char* mensaje_
 	//printf("LOG: %d bytes -> %s\nIntentos=%d - EOLN=%d\n", total, mensaje_recibir,intentos,fin_linea);
 	return total;
 }
+
 float leer_sensor_temperatura(Serial* Arduino)
 {
 	float temperatura;
@@ -218,6 +224,7 @@ float leer_sensor_temperatura(Serial* Arduino)
 		temperatura = float_from_cadena(mensaje_recibido);
 	return temperatura;
 }
+
 float leer_sensor_luz(Serial* Arduino)
 {
 	float luz;
@@ -232,6 +239,7 @@ float leer_sensor_luz(Serial* Arduino)
 		luz = float_from_cadena(mensaje_recibido);
 	return luz;
 }
+
 float leer_sensor_humedad(Serial* Arduino)
 {
 	float humedad;
@@ -246,6 +254,7 @@ float leer_sensor_humedad(Serial* Arduino)
 		humedad = float_from_cadena(mensaje_recibido);
 	return humedad;
 }
+
 float float_from_cadena(char* cadena)
 {
 	float numero = 0;
@@ -283,6 +292,7 @@ float float_from_cadena(char* cadena)
 		}
 	return numero;
 }
+
 void act_bomba(Serial* Arduino)
 {
 	char BufferSalida[MAX_BUFFER];
@@ -294,6 +304,7 @@ void act_bomba(Serial* Arduino)
 		printf("\nSe ha activado el riego manual\n");
 	}
 }
+
 void act_led(Serial* Arduino)
 {
 	char BufferSalida[MAX_BUFFER];
@@ -305,6 +316,7 @@ void act_led(Serial* Arduino)
 		printf("\nSe han activado los leds\n");
 	}
 }
+
 void act_vent(Serial* Arduino)
 {
 	char BufferSalida[MAX_BUFFER];
@@ -316,6 +328,7 @@ void act_vent(Serial* Arduino)
 		printf("\nSe ha activado el ventilador");
 	}
 }
+
 void Send_to_hw(Serial* Arduino, char* BufferSalida)
 {
 	Arduino->WriteData(BufferSalida, strlen(BufferSalida));
