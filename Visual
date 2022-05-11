@@ -3,7 +3,7 @@
 #include <string.h>
 #include <locale.h>
 #include <conio.h>
-#include "SerialClass.h"
+#include "SerialClass/SerialClass.h"
 
 #define MAX_BUFFER 200
 #define PAUSA_MS 200 
@@ -32,6 +32,7 @@ float float_from_cadena(char* cadena);
 void Send_to_hw(Serial*, char*);
 void escribir_fichero_datos(sensores*);
 int preguntar_opcion();
+void leer_fichero_datos();
 
 int main(void) {
 	Serial* Arduino;
@@ -82,13 +83,10 @@ int main(void) {
 
 		case 4:
 			int mill;
-			printf("\nIntroduzca las veces que quieres leer los datos: ");
+			printf("Introduzca las veces que quieres leer los datos: ");
 			scanf_s("%d", &n);
-			printf("\nIntroduzca los milisegundos entre lecturas: ");
+			printf("Introduzca los milisegundos entre lecturas: ");
 			scanf_s("%d", &mill);
-
-
-
 			datememoria = (sensores*)malloc(sizeof(sensores) * n);
 			if (datememoria == NULL)
 				printf("Memoria insuficiente");
@@ -139,7 +137,7 @@ int main(void) {
 
 		}
 	}
-	
+
 	return 0;
 }
 
