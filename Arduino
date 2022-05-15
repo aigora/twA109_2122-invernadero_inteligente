@@ -6,7 +6,8 @@ DHT dht(2, DHT11);
 float t;
 float dospinchos;
 float valorluz;
-int pin=9;
+int pinl=9,pinv=10,pinb=11;
+
 
 void setup()
 {
@@ -86,32 +87,33 @@ void datos(void)
  void activarbomba(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
  {
  String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("BOMBA")) //SI LA CADENA RECIBIDA DICE "BOMBA"
+ if (cadena.equals("BOMBA1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
   {
-  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
-  delay (10000);//ESPERAR 10 SEGUNDOS
-  digitalWrite(pin,LOW);
-  delay(10000);  
+  digitalWrite(pinb, HIGH); //PONER EL PIN EN HIGH
+    }
+     if (cadena.equals("BOMBA0")) //SI LA CADENA RECIBIDA "DICE" BOMBA
+  {
+  digitalWrite(pinb,LOW);
     }
   }
    void activarled(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
  {
  String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("LED")) //SI LA CADENA RECIBIDA DICE "LED"
+ if (cadena.equals("LED1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
   {
-  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
-  delay (10000);//ESPERAR 10 SEGUNDOS
-  digitalWrite(pin,LOW);
-  delay(10000);  
+  digitalWrite(pinl, HIGH); //PONER EL PIN EN HIGH
+  }
+  if(cadena.equals("LED0")){
+  digitalWrite(pinl,LOW);
     }
   }
   void activarvent(void){
      String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("VENT")) //SI LA CADENA RECIBIDA DICE "VENT"
+ if (cadena.equals("VENT1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
   {
-  digitalWrite(pin, HIGH); //PONER EL PIN EN HIGH
-  delay (10000);//ESPERAR 10 SEGUNDOS
-  digitalWrite(pin,LOW);
-  delay(10000);  
+  digitalWrite(pinv, HIGH); //PONER EL PIN EN HIGH
+  }
+  if(cadena.equals("VENT1")){
+  digitalWrite(pinv,LOW);
     }
   }
