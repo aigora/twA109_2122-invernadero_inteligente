@@ -101,7 +101,7 @@ int main(void) {
 					printf("\n Sensor luz: %d", datememoria->sensorluz);
 					printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
 					printf("\n Sensor temperatura: %d", datememoria->sensortemp);
-					escribir_fichero_datos(datememoria);
+					//escribir_fichero_datos(datememoria);
 					Sleep(mill);
 				}
 			}
@@ -306,9 +306,16 @@ void act_bomba(Serial* Arduino, int on_off)
 	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
-		sprintf_s(BufferSalida, "BOMBA\n");
-		Send_to_hw(Arduino, BufferSalida);
-		printf("\nSe ha activado el riego manual\n");
+		if (on_off == 1) {
+			sprintf_s(BufferSalida, "BOMBA1\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe ha activado el riego manual\n");
+		}
+		if (on_off == 0) {
+			sprintf_s(BufferSalida, "BOMBA0\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe ha desactivado el riego manual\n");
+		}
 	}
 }
 
@@ -318,9 +325,16 @@ void act_led(Serial* Arduino, int on_off)
 	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
-		sprintf_s(BufferSalida, "LED\n");
-		Send_to_hw(Arduino, BufferSalida);
-		printf("\nSe han activado los leds\n");
+		if (on_off == 1) {
+			sprintf_s(BufferSalida, "LED1\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe han activado los leds\n");
+		}
+		if (on_off == 0) {
+			sprintf_s(BufferSalida, "LED0\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe han desactivado los leds\n");
+		}
 	}
 }
 
@@ -384,7 +398,6 @@ void leer_fichero_datos() {
 			printf("\nLuz: %s\nHumedad: %s\nTemperatura: %s\n\n", luz, humedad, temp);
 		}
 	}
-	fclose(file); //se cierra el fichero
 }
 
 int preguntar_opcion() {
