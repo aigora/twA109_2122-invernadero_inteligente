@@ -63,21 +63,42 @@ int main(void) {
 		case 1:
 			do {
 				luces = preguntar_opcion();
-				act_led(Arduino, luces);
+				if (luces == 0) {
+					act_led(Arduino, OFF);
+					printf("Se han desactivado los leds");
+				}
+				if (luces == 1) {
+					act_led(Arduino, ON);
+					printf("Se han activado los leds");
+				}
 			} while (luces != 2);
 			break;
 
 		case 2:
 			do {
 				bomba = preguntar_opcion();
-				act_led(Arduino, bomba);
+				if (bomba == 0) {
+					act_bomba(Arduino, OFF);
+					printf("Se ha desactivado la bomba");
+				}
+				if (bomba == 1) {
+					act_bomba(Arduino, ON);
+					printf("Se ha activado la bomba");
+				}
 			} while (bomba != 2);
 			break;
 
 		case 3:
 			do {
 				ventilador = preguntar_opcion();
-				act_led(Arduino, ventilador);
+				if (ventilador == 0) {
+					act_vent(Arduino, OFF);
+					printf("Se ha desactivado el ventilador");
+				}
+				if (ventilador == 1) {
+					act_vent(Arduino, ON);
+					printf("Se ha activado el ventilador");
+				}
 			} while (ventilador != 2);
 			break;
 
