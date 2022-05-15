@@ -55,8 +55,11 @@ int main(void) {
 	while (opcion != 6) {
 		opcion = menu_ppal();
 		datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+		Sleep(3000);
 		datsen.sensorluz = leer_sensor_luz(Arduino);
+		Sleep(3000);
 		datsen.sensortemp = leer_sensor_temperatura(Arduino);
+		Sleep(3000);
 
 		switch (opcion)
 		{
@@ -114,11 +117,17 @@ int main(void) {
 			else {
 				for (i = 0; i < n; i++) {
 					datsen.sensorhumedad = leer_sensor_humedad(Arduino);
+					Sleep(1500);
 					datsen.sensorluz = leer_sensor_luz(Arduino);
+					Sleep(1500);
 					datsen.sensortemp = leer_sensor_temperatura(Arduino);
+					Sleep(1500);
 					datememoria->sensorhumedad = datsen.sensorhumedad;
+					Sleep(1500);
 					datememoria->sensorluz = datsen.sensorluz;
+					Sleep(1500);
 					datememoria->sensortemp = datsen.sensortemp;
+					Sleep(1500);
 					printf("\n Sensor luz: %d", datememoria->sensorluz);
 					printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
 					printf("\n Sensor temperatura: %d", datememoria->sensortemp);
