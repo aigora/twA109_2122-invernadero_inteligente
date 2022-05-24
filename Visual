@@ -131,7 +131,7 @@ int main(void) {
 					printf("\n Sensor luz: %d", datememoria->sensorluz);
 					printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
 					printf("\n Sensor temperatura: %d", datememoria->sensortemp);
-					//escribir_fichero_datos(datememoria);
+					escribir_fichero_datos(datememoria);
 					Sleep(mill);
 				}
 			}
@@ -392,7 +392,7 @@ void escribir_fichero_datos(sensores* data)
 	FILE* file;
 	errno_t err;
 
-	err = fopen_s(&file, FILENAME, "a");
+	err = fopen_s(&file, FILENAME, "a+");
 	//fseek(file, 0, SEEK_END);// Movemos el puntero del archivo al final del mismo
 	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
 	{
@@ -414,7 +414,7 @@ void leer_fichero_datos() {
 	char luz[MAX_BUFFER], humedad[MAX_BUFFER];
 	char temp[MAX_BUFFER], trash[MAX_BUFFER];
 
-	err = fopen_s(&file, FILENAME, "a");
+	err = fopen_s(&file, FILENAME, "a+");
 	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
 	{
 		while (!feof(file)) {
