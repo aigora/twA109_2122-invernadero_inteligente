@@ -374,9 +374,16 @@ void act_vent(Serial* Arduino, int on_off)
 	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
-		sprintf_s(BufferSalida, "VENT\n");
-		Send_to_hw(Arduino, BufferSalida);
-		printf("\nSe ha activado el ventilador");
+		if (on_off == 1) {
+			sprintf_s(BufferSalida, "VENT1\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe ha activado el ventilador");
+		}
+		if (on_off == 0) {
+			sprintf_s(BufferSalida, "VENT0\n");
+			Send_to_hw(Arduino, BufferSalida);
+			printf("\nSe ha desactivado el ventilador");
+		}
 	}
 }
 
