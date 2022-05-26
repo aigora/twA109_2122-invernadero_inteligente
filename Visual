@@ -36,7 +36,7 @@ void leer_fichero_datos();
 
 int main(void) {
 	Serial* Arduino;
-	char puerto[] = "COM7"; // Puerto serie al que está conectado Arduino
+	char puerto[] = "COM6"; // Puerto serie al que está conectado Arduino
 	int opcion_menu;
 	int umbraluz = 0, luces;
 	int umbralhumedad = 0, bomba;
@@ -54,54 +54,28 @@ int main(void) {
 
 	while (opcion != 6) {
 		opcion = menu_ppal();
-		datsen.sensorhumedad = leer_sensor_humedad(Arduino);
-		Sleep(3000);
-		datsen.sensorluz = leer_sensor_luz(Arduino);
-		Sleep(3000);
-		datsen.sensortemp = leer_sensor_temperatura(Arduino);
-		Sleep(3000);
 
 		switch (opcion)
 		{
 		case 1:
 			do {
 				luces = preguntar_opcion();
-				if (luces == 0) {
-					act_led(Arduino, OFF);
-					printf("Se han desactivado los leds");
-				}
-				if (luces == 1) {
-					act_led(Arduino, ON);
-					printf("Se han activado los leds");
-				}
+				act_led(Arduino, luces);
 			} while (luces != 2);
 			break;
 
 		case 2:
 			do {
 				bomba = preguntar_opcion();
-				if (bomba == 0) {
-					act_bomba(Arduino, OFF);
-					printf("Se ha desactivado la bomba");
-				}
-				if (bomba == 1) {
-					act_bomba(Arduino, ON);
-					printf("Se ha activado la bomba");
-				}
+				act_bomba(Arduino, bomba);
+				
 			} while (bomba != 2);
 			break;
 
 		case 3:
 			do {
 				ventilador = preguntar_opcion();
-				if (ventilador == 0) {
-					act_vent(Arduino, OFF);
-					printf("Se ha desactivado el ventilador");
-				}
-				if (ventilador == 1) {
-					act_vent(Arduino, ON);
-					printf("Se ha activado el ventilador");
-				}
+				act_vent(Arduino, ventilador);
 			} while (ventilador != 2);
 			break;
 
@@ -117,17 +91,13 @@ int main(void) {
 			else {
 				for (i = 0; i < n; i++) {
 					datsen.sensorhumedad = leer_sensor_humedad(Arduino);
-					Sleep(1500);
+					Sleep(100);
 					datsen.sensorluz = leer_sensor_luz(Arduino);
-					Sleep(1500);
+					Sleep(100);
 					datsen.sensortemp = leer_sensor_temperatura(Arduino);
-					Sleep(1500);
 					datememoria->sensorhumedad = datsen.sensorhumedad;
-					Sleep(1500);
 					datememoria->sensorluz = datsen.sensorluz;
-					Sleep(1500);
 					datememoria->sensortemp = datsen.sensortemp;
-					Sleep(1500);
 					printf("\n Sensor luz: %d", datememoria->sensorluz);
 					printf("\n Sensor humedad: %d", datememoria->sensorhumedad);
 					printf("\n Sensor temperatura: %d", datememoria->sensortemp);
@@ -174,7 +144,7 @@ int main(void) {
 
 int menu_ppal(void)
 {
-	int opcion;
+	int opcion = 0;
 	do
 	{
 		system("cls");
@@ -191,7 +161,7 @@ int menu_ppal(void)
 		if (opcion < 1 || opcion > 6)
 			printf("ERROR\n Introduzca otra opcion");
 		else
-			printf("Ha seleccionado la opcion %d ", opcion);
+			printf("Ha seleccionado la opcion %d\n", opcion);
 	} while (opcion < 1 || opcion > 6);
 
 	return opcion;
@@ -247,56 +217,42 @@ int Enviar_y_Recibir(Serial* Arduino, const char* mensaje_enviar, char* mensaje_
 	return total;
 }
 
-float leer_sensor_temperatura(Serial* Arduino)
-{
+float leer_sensor_temperatura(Serial* Arduino) {
 	float temperatura;
-	int bytesRecibidos;
 	char mensaje_recibido[MAX_BUFFER];
 
-	bytesRecibidos = Enviar_y_Recibir(Arduino, "GET_TEMP\n", mensaje_recibido);
-
-	if (bytesRecibidos <= 0)
+	if (Enviar_y_Recibir(Arduino, "GET_TEMP\n", mensaje_recibido) <= 0)
 		temperatura = -1;
 	else
 		temperatura = float_from_cadena(mensaje_recibido);
 	return temperatura;
 }
 
-float leer_sensor_luz(Serial* Arduino)
-{
+float leer_sensor_luz(Serial* Arduino) {
 	float luz;
-	int bytesRecibidos;
 	char mensaje_recibido[MAX_BUFFER];
 
-	bytesRecibidos = Enviar_y_Recibir(Arduino, "GET_LUZ\n", mensaje_recibido);
-
-	if (bytesRecibidos <= 0)
+	if (Enviar_y_Recibir(Arduino, "GET_LUZ\n", mensaje_recibido) <= 0)
 		luz = -1;
 	else
 		luz = float_from_cadena(mensaje_recibido);
 	return luz;
 }
 
-float leer_sensor_humedad(Serial* Arduino)
-{
+float leer_sensor_humedad(Serial* Arduino) {
 	float humedad;
-	int bytesRecibidos;
 	char mensaje_recibido[MAX_BUFFER];
 
-	bytesRecibidos = Enviar_y_Recibir(Arduino, "GET_HUM\n", mensaje_recibido);
-
-	if (bytesRecibidos <= 0)
+	if (Enviar_y_Recibir(Arduino, "GET_HUM\n", mensaje_recibido) <= 0)
 		humedad = -1;
 	else
 		humedad = float_from_cadena(mensaje_recibido);
 	return humedad;
 }
 
-float float_from_cadena(char* cadena)
-{
+float float_from_cadena(char* cadena) {
 	float numero = 0;
 	int i, divisor = 10, estado = 0;
-
 
 	for (i = 0; cadena[i] != '\0' && estado != 3 && i < MAX_BUFFER; i++)
 		switch (estado)
@@ -333,18 +289,17 @@ float float_from_cadena(char* cadena)
 void act_bomba(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
-	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
 		if (on_off == 1) {
 			sprintf_s(BufferSalida, "BOMBA1\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe ha activado el riego manual\n");
+			printf("Se ha activado el riego manual\n");
 		}
 		if (on_off == 0) {
 			sprintf_s(BufferSalida, "BOMBA0\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe ha desactivado el riego manual\n");
+			printf("Se ha desactivado el riego manual\n");
 		}
 	}
 }
@@ -352,18 +307,17 @@ void act_bomba(Serial* Arduino, int on_off)
 void act_led(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
-	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
 		if (on_off == 1) {
 			sprintf_s(BufferSalida, "LED1\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe han activado los leds\n");
+			printf("Se han activado los leds\n");
 		}
 		if (on_off == 0) {
 			sprintf_s(BufferSalida, "LED0\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe han desactivado los leds\n");
+			printf("Se han desactivado los leds\n");
 		}
 	}
 }
@@ -371,30 +325,26 @@ void act_led(Serial* Arduino, int on_off)
 void act_vent(Serial* Arduino, int on_off)
 {
 	char BufferSalida[MAX_BUFFER];
-	char BufferEntrada[MAX_BUFFER];
 	if (Arduino->IsConnected())//FALTA && DATOS RECIBIDOS<VALORES UMBRALES!! Si hay conexión entre ambos sistemas. Requisito 1
 	{
 		if (on_off == 1) {
 			sprintf_s(BufferSalida, "VENT1\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe ha activado el ventilador");
+			printf("Se ha activado el ventilador");
 		}
 		if (on_off == 0) {
 			sprintf_s(BufferSalida, "VENT0\n");
 			Send_to_hw(Arduino, BufferSalida);
-			printf("\nSe ha desactivado el ventilador");
+			printf("Se ha desactivado el ventilador");
 		}
 	}
 }
 
-void Send_to_hw(Serial* Arduino, char* BufferSalida)
-{
+void Send_to_hw(Serial* Arduino, char* BufferSalida) {
 	Arduino->WriteData(BufferSalida, strlen(BufferSalida));
 }
 
-void escribir_fichero_datos(sensores* data)
-{
-
+void escribir_fichero_datos(sensores* data) {
 	// Creo la variable y abro el fichero
 	FILE* file;
 	errno_t err;
@@ -403,9 +353,9 @@ void escribir_fichero_datos(sensores* data)
 	//fseek(file, 0, SEEK_END);// Movemos el puntero del archivo al final del mismo
 	if (err == 0) // Si el fichero data.txt se ha abierto correctamente
 	{
-		fprintf(file, "Luz %s\n", data->sensorluz);
-		fprintf(file, "Humedad %s\n", data->sensorhumedad);
-		fprintf(file, "Temperatura %s\n\n", data->sensortemp);
+		fprintf(file, "Luz %i\n", data->sensorluz);
+		fprintf(file, "Humedad %i\n", data->sensorhumedad);
+		fprintf(file, "Temperatura %i\n\n", data->sensortemp);
 
 
 		fclose(file);
@@ -432,13 +382,13 @@ void leer_fichero_datos() {
 			fgets(trash, MAXCAD, file);
 			fgets(temp, MAXCAD, file);
 
-			printf("\nLuz: %s\nHumedad: %s\nTemperatura: %s\n\n", luz, humedad, temp);
+			printf("\nLuz: %s\nHumedad: %s %% \nTemperatura: %s ºC\n\n", luz, humedad, temp);
 		}
 	}
 }
 
 int preguntar_opcion() {
-	int opc;
+	int opc = 0;
 
 	do {
 		printf("\nApagar = 0 / Encender = 1 / Salir = 2: ");
