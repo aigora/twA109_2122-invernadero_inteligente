@@ -17,7 +17,10 @@ void setup()
   // PREPARAR LA LIBRERIA PARA COMUNICARSE CON EL SENSOR//
   dht.begin();
 
-  pinMode(pin,OUTPUT);
+  pinMode(pinl,OUTPUT); // pin luz
+  pinMode(pinv,OUTPUT); // pin ventilador
+  pinMode(pinb,OUTPUT); // pin bomba
+  
 }
 
 void loop()
