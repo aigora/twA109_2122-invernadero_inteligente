@@ -149,10 +149,10 @@ int menu_ppal(void)
 	{
 		system("cls");
 		printf("Selecciona la opcion deseada:");
-		printf("\n 1) Luz manual");
-		printf("\n 2) Humedad manual");
-		printf("\n 3) Temperatura manual");
-		printf("\n 4) Datos sensores");
+		printf("\n 1) Controlar los LED manualmente");
+		printf("\n 2) Controlar el riego manualmente");
+		printf("\n 3) Controlar el ventilador manualmente");
+		printf("\n 4) Mandar los datos de los sensores a un archivo");
 		printf("\n 5) Actuadores automaticos");
 		printf("\n 6) Cerrar aplicacion");
 		printf("\n Opción: ");
@@ -213,7 +213,6 @@ int Enviar_y_Recibir(Serial* Arduino, const char* mensaje_enviar, char* mensaje_
 	if (total > 0)
 		mensaje_recibir[total - 1] = '\0';
 
-	//printf("LOG: %d bytes -> %s\nIntentos=%d - EOLN=%d\n", total, mensaje_recibir,intentos,fin_linea);
 	return total;
 }
 
