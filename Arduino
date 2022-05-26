@@ -116,7 +116,7 @@ void datos(void)
   {
   digitalWrite(pinv, HIGH); //PONER EL PIN EN HIGH
   }
-  if(cadena.equals("VENT1")){
+  if(cadena.equals("VENT0")){
   digitalWrite(pinv,LOW);
     }
   }
