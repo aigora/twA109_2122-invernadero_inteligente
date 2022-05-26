@@ -1,122 +1,99 @@
-#include "DHT.h"
-#define SensorPin A0
-#define LUZ A1
-DHT dht(2, DHT11);
+#include <DHT.h>
+
+#define HUMSUELOPIN A0
+#define LUZPIN A1
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
 
 float t;
 float dospinchos;
 float valorluz;
-int pinl=9,pinv=10,pinb=11;
+int LEDPIN=9,VENTPIN=10,BOMBAPIN=11;
+String cad;
 
 
-void setup()
-{
-  // Tareas de configuración 
-
+void setup(){ 
   Serial.begin(9600);
-  // PREPARAR LA LIBRERIA PARA COMUNICARSE CON EL SENSOR//
   dht.begin();
 
-  pinMode(pinl,OUTPUT); // pin luz
-  pinMode(pinv,OUTPUT); // pin ventilador
-  pinMode(pinb,OUTPUT); // pin bomba
-  
+  pinMode(LEDPIN,OUTPUT); // pin luz
+  pinMode(VENTPIN,OUTPUT); // pin ventilador
+  pinMode(BOMBAPIN,OUTPUT); // pin bomba
 }
 
-void loop()
-{
-    
-      if (Serial.available() > 0)  // Si hay mensajes procedentes del PC  
-    activarbomba();
-    datos();
-    hum();
-    tem();
-    luz();
-    activarled();
-    activarvent();
-    
-  float t = dht.readTemperature();
-  float valorluz=0;
-  valorluz = analogRead(LUZ);
-  float dospinchos = analogRead(SensorPin);;//Valor del sensor// 
-  Serial.println(dospinchos);  
-  
+void loop(){
+  if (Serial.available() > 0){ // Si hay mensajes procedentes del PC  
+    cad = Serial.readStringUntil('\n');
+    if (cad.equals("DATOS")) datos();
+    else if (cad.equals("GET_HUM")) hum();
+    else if (cad.equals("GET_TEMP")) tem();
+    else if (cad.equals("GET_LUZ")) luz();
+    else if (cad.equals("LED0") || cad.equals("LED1")) activarLed();
+    else if (cad.equals("VENT0") || cad.equals("VENT1")) activarVent();
+    else if (cad.equals("BOMBA0") || cad.equals("BOMBA1")) activarBomba();
+  }
 }
   
    // Resto de acciones 
 void hum(void){
-  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
- if (cadena.equals("GET_HUM")) // Requisito 4
- {
+  dospinchos = analogRead(HUMSUELOPIN);
   Serial.print("Humedad del suelo: ");
-  Serial.println(dospinchos);
-  Serial.print(" % ");
- }
+  Serial.print(dospinchos);
+  Serial.println(" %");
 }
 void tem(void){
-  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
- if (cadena.equals("GET_TEMP")) // Requisito 4
- {
+  t = dht.readTemperature();
   Serial.print("Temperatura: ");
   Serial.print(t);
-  Serial.println(" *C");
-  }
+  Serial.println(" ºC");
 }
 void luz(void){
-  String cadena = Serial.readStringUntil('\n'); // Lee mensaje
- if (cadena.equals("GET_LUZ")) // Requisito 4
- {
+  valorluz = analogRead(LUZPIN);
   Serial.print("Valor luz: ");
   Serial.println(valorluz);
-  }
 }
 
-void datos(void)
-{
- String cadena = Serial.readStringUntil('\n'); // Lee mensaje
- if (cadena.equals("DATOS")) // Requisito 4
- {
+void datos(void){
+  dospinchos = analogRead(HUMSUELOPIN);
   Serial.print("Humedad del suelo: ");
-  Serial.println(dospinchos);
-  Serial.print(" % ");
+  Serial.print(dospinchos);
+  Serial.println(" % ");
+
+  t = dht.readTemperature();
   Serial.print("Temperatura: ");
   Serial.print(t);
-  Serial.println(" *C");// Requisito 6
+  Serial.println(" ºC");
+
+  valorluz = analogRead(LUZPIN);
   Serial.print("Valor luz: ");
   Serial.println(valorluz);
- }
 }
 
- void activarbomba(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
- {
- String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("BOMBA1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
-  {
-  digitalWrite(pinb, HIGH); //PONER EL PIN EN HIGH
-    }
-     if (cadena.equals("BOMBA0")) //SI LA CADENA RECIBIDA "DICE" BOMBA
-  {
-  digitalWrite(pinb,LOW);
-    }
+void activarBomba(void){
+  if (cad.equals("BOMBA1")){
+    digitalWrite(BOMBAPIN, HIGH); //PONER EL PIN EN HIGH
   }
-   void activarled(void)//FUNCION PARA ACTIVAR LA BOMBA DE AGUA 10 SEGUNDOS
- {
- String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("LED1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
-  {
-  digitalWrite(pinl, HIGH); //PONER EL PIN EN HIGH
+  if (cad.equals("BOMBA0")){
+    digitalWrite(BOMBAPIN,LOW);
   }
-  if(cadena.equals("LED0")){
-  digitalWrite(pinl,LOW);
-    }
+}
+
+void activarLed(void){
+  if (cad.equals("LED1")){
+    digitalWrite(LEDPIN, HIGH); //PONER EL PIN EN HIGH
   }
-  void activarvent(void){
-     String cadena = Serial.readStringUntil('\n');//Leer valor hasta recibir \n
- if (cadena.equals("VENT1")) //SI LA CADENA RECIBIDA "DICE" BOMBA
-  {
-  digitalWrite(pinv, HIGH); //PONER EL PIN EN HIGH
+  if(cad.equals("LED0")){
+    digitalWrite(LEDPIN,LOW);
   }
-  if(cadena.equals("VENT0")){
-  digitalWrite(pinv,LOW);
-    }
+}
+
+void activarVent(void){
+  if (cad.equals("VENT1")){
+    digitalWrite(VENTPIN, HIGH); //PONER EL PIN EN HIGH
   }
+  if(cad.equals("VENT0")){
+    digitalWrite(VENTPIN,LOW);
+  }
+}
