@@ -25,7 +25,7 @@ void setup(){
 }
 
 void loop(){
-  i = ((i + 1) % 200)
+  i = ((i + 1) % 200);
   if (i == 0) runAutomaticMode();
   if (Serial.available() > 0){ // Si hay mensajes procedentes del PC  
     cad = Serial.readStringUntil('\n');
