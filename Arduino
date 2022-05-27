@@ -4,15 +4,16 @@
 #define LUZPIN A1
 #define DHTPIN 2
 #define DHTTYPE DHT11
+#define LEDPIN 9
+#define VENTPIN 10
+#define BOMBAPIN 11
 
 DHT dht(DHTPIN, DHTTYPE);
-
-float t;
-float dospinchos;
-float valorluz;
-int LEDPIN=9,VENTPIN=10,BOMBAPIN=11;
+float t, dospinchos, valorluz;
 String cad;
-
+int umbralTemp = 0, umbralHum = 0, umbralLuz = 0;
+bool automaticMode = false;
+int i = 0;
 
 void setup(){ 
   Serial.begin(9600);
@@ -24,19 +25,24 @@ void setup(){
 }
 
 void loop(){
+  i = ((i + 1) % 200)
+  if (i == 0) runAutomaticMode();
   if (Serial.available() > 0){ // Si hay mensajes procedentes del PC  
     cad = Serial.readStringUntil('\n');
     if (cad.equals("DATOS")) datos();
     else if (cad.equals("GET_HUM")) hum();
     else if (cad.equals("GET_TEMP")) tem();
     else if (cad.equals("GET_LUZ")) luz();
-    else if (cad.equals("LED0") || cad.equals("LED1")) activarLed();
-    else if (cad.equals("VENT0") || cad.equals("VENT1")) activarVent();
-    else if (cad.equals("BOMBA0") || cad.equals("BOMBA1")) activarBomba();
+    else if (cad.equals("LED_0") || cad.equals("LED_1")) activarLed();
+    else if (cad.equals("VENT_0") || cad.equals("VENT_1")) activarVent();
+    else if (cad.equals("BOMBA_0") || cad.equals("BOMBA_1")) activarBomba();
+    else if (cad.equals("SET_TEMP")) setUmbralTemp();
+    else if (cad.equals("SET_HUM")) setUmbralHum();
+    else if (cad.equals("SET_LUZ")) setUmbralLuz();
+    else if (cad.equals("AUTO_0") || cad.equals("AUTO_1")) setAutomMode();
   }
 }
   
-   // Resto de acciones 
 void hum(void){
   dospinchos = analogRead(HUMSUELOPIN);
   Serial.print("Humedad del suelo: ");
@@ -72,28 +78,57 @@ void datos(void){
 }
 
 void activarBomba(void){
-  if (cad.equals("BOMBA1")){
-    digitalWrite(BOMBAPIN, HIGH); //PONER EL PIN EN HIGH
-  }
-  if (cad.equals("BOMBA0")){
+  if (cad.equals("BOMBA_1"))
+    digitalWrite(BOMBAPIN, HIGH);
+  else
     digitalWrite(BOMBAPIN,LOW);
-  }
 }
 
 void activarLed(void){
-  if (cad.equals("LED1")){
-    digitalWrite(LEDPIN, HIGH); //PONER EL PIN EN HIGH
-  }
-  if(cad.equals("LED0")){
+  if (cad.equals("LED_1"))
+    digitalWrite(LEDPIN, HIGH);
+  else
     digitalWrite(LEDPIN,LOW);
-  }
 }
 
 void activarVent(void){
-  if (cad.equals("VENT1")){
-    digitalWrite(VENTPIN, HIGH); //PONER EL PIN EN HIGH
-  }
-  if(cad.equals("VENT0")){
+  if (cad.equals("VENT_1"))
+    digitalWrite(VENTPIN, HIGH);
+  else
     digitalWrite(VENTPIN,LOW);
+}
+
+void setUmbralTemp(void) {
+  umbralTemp = (Serial.readStringUntil('\n')).toInt();
+}
+
+void setUmbralHum(void) {
+  umbralHum = (Serial.readStringUntil('\n')).toInt();
+}
+
+void setUmbralLuz(void) {
+  umbralLuz = (Serial.readStringUntil('\n')).toInt();
+}
+
+void setAutomMode(void) {
+  if (cad.equals("AUTO_0"))
+    automaticMode = false;
+  else 
+    automaticMode = true;
+}
+
+void runAutomaticMode(void) {
+  if (automaticMode) {
+    dospinchos = analogRead(HUMSUELOPIN);
+    if (dospinchos > umbralHum) digitalWrite(BOMBAPIN, HIGH);
+    else digitalWrite(BOMBAPIN, LOW);
+  
+    t = dht.readTemperature();
+    if (t > umbralTemp) digitalWrite(VENTPIN, HIGH);
+    else digitalWrite(VENTPIN, LOW);
+  
+    valorluz = analogRead(LUZPIN);
+    if (valorluz > umbralLuz) digitalWrite(LEDPIN, HIGH);
+    else digitalWrite(LEDPIN, LOW);
   }
 }
